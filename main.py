@@ -47,6 +47,8 @@ async def meme(ctx, image, toptext="", bottomtext=""):
         file.write(toptext + "\n")
     with open("bottomtext.txt", "a") as file:
         file.write(bottomtext + "\n")
+    # Deletes the meme
+    os.remove("./memes/" + id + ".jpg")
 
 @bot.slash_command(guild_ids=[server], name="random", description="Generates a random meme!")
 async def random(ctx):
@@ -67,6 +69,8 @@ async def random(ctx):
     # Makes the meme
     makeMeme(toptext, bottomtext, "./images/" + path, "./memes/" + id + ".jpg")
     await ctx.respond(file=discord.File("./memes/" + id + ".jpg"))
+    # Deletes the meme
+    os.remove("./memes/" + id + ".jpg")
 
 def is_url_image(image_url):
    image_formats = ("image/png", "image/jpeg", "image/jpg")
