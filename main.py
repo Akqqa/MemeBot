@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
-server = int(os.getenv('TEST_SERVER'))
+server = int(os.getenv('HC'))
 
 bot = discord.Bot()
 
@@ -32,6 +32,6 @@ async def hello(ctx, toptext, bottomtext, image):
         handler.write(img)
     # Makes the meme
     makeMeme(toptext, bottomtext, "./images/" + id + ".jpg", "./memes/" + id + ".jpg")
-    await ctx.send(file=discord.File("./memes/" + id + ".jpg"))
+    await ctx.respond(file=discord.File("./memes/" + id + ".jpg"))
 
 bot.run(token)
