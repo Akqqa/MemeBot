@@ -6,6 +6,7 @@
 import os
 import discord
 import requests
+from generate import makeMeme
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -26,9 +27,11 @@ async def hello(ctx, toptext, bottomtext, image):
         id = file.readline()
     with open("imageid", "w") as file:
         file.write(str(int(id) + 1))
-
+    # Write image to file
     with open("./images/" + id + ".jpg", "wb") as handler:
         handler.write(img)
-    await ctx.respond("Hello!")
+    # Makes the meme
+    makeMeme(toptext, bottomtext, "./images/" + id + ".jpg", "./memes/" + id + ".jpg")
+    await ctx.send(file=discord.File("./memes/" + id + ".jpg"))
 
 bot.run(token)

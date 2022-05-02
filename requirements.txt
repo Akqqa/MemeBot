@@ -6,6 +6,7 @@ chardet==4.0.0
 charset-normalizer==2.0.12
 idna==3.3
 multidict==6.0.2
+Pillow==9.1.0
 py-cord==1.7.3
 python-dotenv==0.20.0
 requests==2.27.1

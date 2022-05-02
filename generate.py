@@ -100,4 +100,5 @@ def makeMeme(topText, bottomText, image, output):
         img = img.convert("RGB")
     img.save(output, optimize=True, quality=80)    #Save with some image optimization
 
-makeMeme("spooky", "a", "./images/spoioky.jpg", "./memes/imag2.jpg")
+if __name__ == "__main__":
+    makeMeme("spooky", "a", "./images/spoioky.jpg", "./memes/imag2.jpg")
