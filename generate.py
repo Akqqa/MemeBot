@@ -31,31 +31,31 @@ class Meme:
         Draws text onto this objects img object
         :return: A pillow image object with text drawn onto the image
         '''
+        if (self.splitTopCaption):
+            # Top caption
+            (iw, ih) = self.img.size
+            (_, th) = self.d.textsize(self.splitTopCaption[0], font=self.font) #Height of the text
+            y = 0  #The starting y position to draw the first line of text. Text in drawn from the top line down
 
-        # Top caption
-        (iw, ih) = self.img.size
-        (_, th) = self.d.textsize(self.splitTopCaption[0], font=self.font) #Height of the text
-        y = 0  #The starting y position to draw the first line of text. Text in drawn from the top line down
+            for cap in self.splitTopCaption:   #For each line of text
+                (tw, _) = self.d.textsize(cap, font=self.font)  # Getting the position of the text
+                x = ((iw - tw) - (len(cap) * self.letSpacing))/2  # Center the text and account for the spacing between letters
 
-        for cap in self.splitTopCaption:   #For each line of text
-            (tw, _) = self.d.textsize(cap, font=self.font)  # Getting the position of the text
-            x = ((iw - tw) - (len(cap) * self.letSpacing))/2  # Center the text and account for the spacing between letters
+                self.drawLine(x=x, y=y, caption=cap)
+                y = y + th + self.lineSpacing  # Next block of text is higher up
 
-            self.drawLine(x=x, y=y, caption=cap)
-            y = y + th + self.lineSpacing  # Next block of text is higher up
+        if (self.splitBottomCaption):
+            # Bottom caption
+            (iw, ih) = self.img.size
+            (_, th) = self.d.textsize(self.splitBottomCaption[0], font=self.font) #Height of the text
+            y = (ih - (ih / 10)) - (th / 2) #The starting y position to draw the last line of text. Text in drawn from the bottom line up
 
+            for cap in self.splitBottomCaption:   #For each line of text
+                (tw, _) = self.d.textsize(cap, font=self.font)  # Getting the position of the text
+                x = ((iw - tw) - (len(cap) * self.letSpacing))/2  # Center the text and account for the spacing between letters
 
-        # Bottom caption
-        (iw, ih) = self.img.size
-        (_, th) = self.d.textsize(self.splitBottomCaption[0], font=self.font) #Height of the text
-        y = (ih - (ih / 10)) - (th / 2) #The starting y position to draw the last line of text. Text in drawn from the bottom line up
-
-        for cap in self.splitBottomCaption:   #For each line of text
-            (tw, _) = self.d.textsize(cap, font=self.font)  # Getting the position of the text
-            x = ((iw - tw) - (len(cap) * self.letSpacing))/2  # Center the text and account for the spacing between letters
-
-            self.drawLine(x=x, y=y, caption=cap)
-            y = y - th - self.lineSpacing  # Next block of text is higher up
+                self.drawLine(x=x, y=y, caption=cap)
+                y = y - th - self.lineSpacing  # Next block of text is higher up
 
         wpercent = ((self.basewidth/2) / float(self.img.size[0]))
         hsize = int((float(self.img.size[1]) * float(wpercent)))
@@ -101,4 +101,4 @@ def makeMeme(topText, bottomText, image, output):
     img.save(output, optimize=True, quality=80)    #Save with some image optimization
 
 if __name__ == "__main__":
-    makeMeme("spooky", "a", "./images/spoioky.jpg", "./memes/imag2.jpg")
+    makeMeme("", "a", "./images/13.jpg", "./memes/imag2.jpg")
