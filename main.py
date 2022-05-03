@@ -15,6 +15,7 @@ from discord import Embed
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 server = int(os.getenv('HALO'))
+fameID = int(os.getenv('HOF'))
 
 bot = discord.Bot()
 
@@ -86,6 +87,19 @@ async def stats(ctx):
    embed.color = (15648364)
    await ctx.respond(embed=embed)
 
+@bot.event
+async def on_reaction_add(reaction, user):
+    if reaction.emoji == "<:kekdog:820037090196193291>":
+        if reaction.message.channel.id != fameID:
+            for embed in reaction.message.embeds:
+                if embed.url is not discord.Embed.Empty:
+                    url = embed.url
+                    # Post in hall of fame
+                    channel = bot.get_channel(fameID)
+                    embed = discord.Embed()
+                    embed.set_image(url=url)
+                    channel.send(embed=embed)
+                
 
 def is_url_image(image_url):
    image_formats = ("image/png", "image/jpeg", "image/jpg")
