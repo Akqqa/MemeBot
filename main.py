@@ -16,6 +16,7 @@ load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 server = int(os.getenv('HALO'))
 fameID = int(os.getenv('HOF'))
+save = int(os.getenv('SAVE'))
 
 bot = discord.Bot()
 
@@ -89,16 +90,17 @@ async def stats(ctx):
 
 @bot.event
 async def on_reaction_add(reaction, user):
-    if reaction.emoji == "<:kekdog:820037090196193291>":
+    if reaction.emoji.id == save and reaction.count == 1:
         if reaction.message.channel.id != fameID:
-            for embed in reaction.message.embeds:
-                if embed.url is not discord.Embed.Empty:
-                    url = embed.url
-                    # Post in hall of fame
-                    channel = bot.get_channel(fameID)
-                    embed = discord.Embed()
-                    embed.set_image(url=url)
-                    channel.send(embed=embed)
+            for attachment in reaction.message.attachments:
+                url = attachment.url
+                # Post in hall of fame
+                channel = bot.get_channel(fameID)
+                embed = discord.Embed()
+                embed.set_image(url=url)
+                icon = user.avatar.url
+                embed.set_footer(text="Saved by " + user.display_name, icon_url=icon)
+                await channel.send(embed=embed)
                 
 
 def is_url_image(image_url):
