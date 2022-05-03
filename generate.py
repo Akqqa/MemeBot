@@ -1,4 +1,4 @@
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageStat
 import textwrap
 
 """This class was copied from https://github.com/samgermain/python-meme by user samgermain - all credit goes to them (minor modifications made to support bottom text)"""
@@ -8,7 +8,7 @@ class Meme:
     fontBase = 100
     letSpacing = 9              #Space between letters
     fill = (255, 255, 255)      #TextColor
-    stroke_fill = (0,0,0)             #outlineColor
+    stroke_fill = (0, 0, 0)             #outlineColor
     lineSpacing = 10            #Space between lines
     stroke_width=9              #How thick the outline of the text is
     fontfile = './impact.ttf'
@@ -32,6 +32,7 @@ class Meme:
         :return: A pillow image object with text drawn onto the image
         '''
         if (self.splitTopCaption):
+            print(self.splitTopCaption)
             # Top caption
             (iw, ih) = self.img.size
             (_, th) = self.d.textsize(self.splitTopCaption[0], font=self.font) #Height of the text
@@ -45,6 +46,7 @@ class Meme:
                 y = y + th + self.lineSpacing  # Next block of text is higher up
 
         if (self.splitBottomCaption):
+            print(self.splitBottomCaption)
             # Bottom caption
             (iw, ih) = self.img.size
             (_, th) = self.d.textsize(self.splitBottomCaption[0], font=self.font) #Height of the text
@@ -67,7 +69,7 @@ class Meme:
         :param image: Path to an image file
         :return: A pil image object
         '''
-        img = Image.open(image)
+        img = Image.open(image).convert('RGB')
         wpercent = (self.basewidth / float(img.size[0]))
         hsize = int((float(img.size[1]) * float(wpercent)))
         return img.resize((self.basewidth, hsize))

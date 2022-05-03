@@ -10,19 +10,21 @@ from PIL import Image
 from generate import makeMeme
 from dotenv import load_dotenv
 from random import choice
+from discord import Embed
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
-server = int(os.getenv('HC'))
+server = int(os.getenv('HALO'))
 
 bot = discord.Bot()
 
-@bot.slash_command(guild_ids=[server], name="hello", description="hi")
+
+@bot.slash_command(name="hello", description="hi")
 async def hello(ctx):
     await ctx.respond("Hello!")
 
-@bot.slash_command(guild_ids=[server], name="meme", description="Creates a meme!")
-async def meme(ctx, image, toptext="", bottomtext=""):
+@bot.slash_command(name="meme", description="Creates a meme!")
+async def hello(ctx, image, toptext="", bottomtext=""):
     try:
         img = requests.get(image).content
     except:
@@ -50,7 +52,7 @@ async def meme(ctx, image, toptext="", bottomtext=""):
     # Deletes the meme
     os.remove("./memes/" + id + ".jpg")
 
-@bot.slash_command(guild_ids=[server], name="random", description="Generates a random meme!")
+@bot.slash_command(name="random", description="Generates a random meme!")
 async def random(ctx):
     with open("toptext.txt", "r") as file:
         lines = file.readlines()
@@ -71,6 +73,19 @@ async def random(ctx):
     await ctx.respond(file=discord.File("./memes/" + id + ".jpg"))
     # Deletes the meme
     os.remove("./memes/" + id + ".jpg")
+
+@bot.slash_command(name="stats", description="Meme Stats :)")
+async def stats(ctx):
+   with open("imageid", "r") as file:
+        id = file.readline()
+   unique = len(os.listdir("./images"))
+   embed = Embed()
+   embed.title = "Stats"
+   embed.add_field(name="Original memes", value=str(unique))
+   embed.add_field(name="Total memes", value=str(id)) 
+   embed.color = (15648364)
+   await ctx.respond(embed=embed)
+
 
 def is_url_image(image_url):
    image_formats = ("image/png", "image/jpeg", "image/jpg")
