@@ -90,7 +90,7 @@ async def stats(ctx):
 
 @bot.event
 async def on_reaction_add(reaction, user):
-    if reaction.emoji.id == save and reaction.count == 1:
+    if reaction.emoji.id == save and reaction.count == 1 and reaction.message.author.id == bot.user.id:
         if reaction.message.channel.id != fameID:
             for attachment in reaction.message.attachments:
                 url = attachment.url
