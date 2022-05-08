@@ -32,7 +32,6 @@ class Meme:
         :return: A pillow image object with text drawn onto the image
         '''
         if (self.splitTopCaption):
-            print(self.splitTopCaption)
             # Top caption
             (iw, ih) = self.img.size
             (_, th) = self.d.textsize(self.splitTopCaption[0], font=self.font) #Height of the text
@@ -46,7 +45,6 @@ class Meme:
                 y = y + th + self.lineSpacing  # Next block of text is higher up
 
         if (self.splitBottomCaption):
-            print(self.splitBottomCaption)
             # Bottom caption
             (iw, ih) = self.img.size
             (_, th) = self.d.textsize(self.splitBottomCaption[0], font=self.font) #Height of the text
